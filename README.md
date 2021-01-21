@@ -1,4 +1,4 @@
-# makanan
+# Kuliner
 
 ## Project setup
 ```
