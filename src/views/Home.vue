@@ -15,9 +15,13 @@
         </div>
       </div>
 
-      <div class="row mb-3">
-        <div class="col-md-4 mt-4">
-          <CardProduct />
+      <div class="row mb-5">
+        <div
+          class="col-md-4 mt-4"
+          v-for="product in products"
+          :key="product.id"
+        >
+          <CardProduct :product="product" />
         </div>
       </div>
     </div>
@@ -53,14 +57,10 @@ export default {
   mounted() {
     axios
       .get("http://localhost:3000/best-products")
-      .then(function (response) {
-        // handle success
-        console.log("Berhasil", response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log("Gagal", error);
-      });
+      //handle success
+      .then((response) => this.setProduct(response.data))
+      //handle error
+      .catch((error) => console.log(error));
   },
 };
 </script>
