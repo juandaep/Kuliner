@@ -10,7 +10,8 @@
 
       <div class="row mt-3">
         <div class="col">
-          <div class="input-group mb-3">.
+          <div class="input-group mb-3">
+            .
             <!-- Input pencarian -->
             <input
               v-model="search"

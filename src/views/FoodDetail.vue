@@ -38,17 +38,27 @@
           <h4>
             Harga: <strong>Rp. {{ product.harga }}</strong>
           </h4>
-          <form class="mt-4">
-              <div class="form-group">
-                  <label for="jumlah_pesanan">Jumlah Pesanan</label>
-                  <input type="number" class="form-control" />
-              </div>
-              <div class="form-group">
-                  <label for="Keterangan">Keterangan</label>
-                  <textarea class="form-control" placeholder="Keterangan seperti: Pedas, Nasi setengan"></textarea>
-              </div>
+          <form class="mt-4" v-on:submit.prevent>
+            <div class="form-group">
+              <label for="jumlah_pemesanan">Jumlah Pesanan</label>
+              <input
+                type="number"
+                class="form-control"
+                v-model="pesan.jumlah_pemesanan"
+              />
+            </div>
+            <div class="form-group">
+              <label for="Keterangan">Keterangan</label>
+              <textarea
+                class="form-control"
+                v-model="pesan.keterangan"
+                placeholder="Keterangan seperti: Pedas, Nasi setengan"
+              ></textarea>
+            </div>
 
-              <button type="submit" class="btn btn-success"><b-icon-cart></b-icon-cart> Pesan</button>
+            <button type="submit" class="btn btn-success" @click="pemesanan">
+              <b-icon-cart></b-icon-cart> Pesan
+            </button>
           </form>
         </div>
       </div>
@@ -69,12 +79,40 @@ export default {
   data() {
     return {
       product: {},
+      pesan: {},
     };
   },
 
   methods: {
     setProduct(data) {
       this.product = data;
+    },
+    pemesanan() {
+      this.pesan.product = this.product;
+      if (this.pesan.jumlah_pemesanan) {
+        axios
+          .post("http://localhost:3000/keranjangs", this.pesan)
+          .then(() => {
+            this.$router.push({ path: "/keranjang" });
+            this.$toast.success("Sukses masuk keranjang", {
+              type: "success",
+              position: "top-right",
+              duration: 3000,
+              dismissible: true,
+
+              // optional options Object
+            });
+            console.log("Berhasil");
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.$toast.error("Jumlah pesanan harus diisi", {
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissible: true,
+        });
+      }
     },
   },
 
